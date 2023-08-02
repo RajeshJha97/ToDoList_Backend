@@ -2,10 +2,10 @@
 
 namespace ToDoList.Models.Accounts
 {
-    public class SiginIn
+    public class SignIn
     {
         [Required]
-        public string UserName { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
