@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Claims;
-using ToDoList.DTO;
 using ToDoList.Models;
 using ToDoList.Models.Accounts;
+using ToDoList.Models.DTO;
 using ToDoList.Utilities;
 
 namespace ToDoList.Controllers

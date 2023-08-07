@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ToDoList.DTO
+namespace ToDoList.Models.DTO
 {
     public class SignUpDTO
     {
@@ -11,7 +11,7 @@ namespace ToDoList.DTO
         [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-      
+
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
