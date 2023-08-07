@@ -11,17 +11,21 @@ using ToDoList.Utilities;
 
 namespace ToDoList.Controllers
 {
+    #region AuthController
+
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
         #region variables
+
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private string secretKey;
         private readonly IMapper _mapper;
         private APIResponse _resp;
         private Token token;
+
         #endregion
 
         #region Constructor
@@ -31,17 +35,9 @@ namespace ToDoList.Controllers
             _userManager = userManager;  
             _mapper = mapper;
             _resp = new();
+            token = new();
             secretKey=config.GetValue<string>("secretKey");
 
-        }
-
-        #endregion
-
-        #region KeyTesting
-        [HttpGet]
-        public IActionResult Get() 
-        {
-            return Ok(secretKey);
         }
 
         #endregion
@@ -52,6 +48,7 @@ namespace ToDoList.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> Signup([FromBody] SignUpDTO signup)
         {
             try
@@ -71,7 +68,7 @@ namespace ToDoList.Controllers
                 }
                 var user = new IdentityUser
                 {
-                    UserName = signup.UserName,
+                    UserName = signup.Email,
                     Email = signup.Email,
                 };
 
@@ -101,10 +98,12 @@ namespace ToDoList.Controllers
         #endregion
 
         #region SignIn
+
         [HttpPost("SignIn")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> SignIn(SignIn signIn)
         {
             try
@@ -127,6 +126,7 @@ namespace ToDoList.Controllers
 
                     };
                     var expiresAt = DateTime.Now.AddMinutes(10);
+
                     _resp.Result = new
                     {
                         Tokens = token.GenerateToken(claims, expiresAt, secretKey),
@@ -152,4 +152,5 @@ namespace ToDoList.Controllers
         #endregion
 
     }
+    #endregion
 }
